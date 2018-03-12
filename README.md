@@ -4,3 +4,5 @@ we are good luck,thank you
 today we use vsc to check github
 see you luck
 we can sing a song
+
+we should know the issue
