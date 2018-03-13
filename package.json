@@ -4,7 +4,7 @@
   "description": "work log for team",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"dev": "webpack-dev-server --inline --progress",
+    "start:dev": "webpack-dev-server",
     "serve": "http-server ./www/ -o -c 1 -a 10.5.27.9",
     "copy-f7": "cpy node_modules/framework7/dist/js/*.* www/framework7/js && cpy node_modules/framework7/dist/css/*.* www/framework7/css && cpy node_modules/framework7-icons/fonts/*.* www/fonts && cpy node_modules/material-design-icons/iconfont/*.{eot,ttf,woff,woff2} www/fonts",
     "postinstall": "npm run copy-f7"
@@ -30,6 +30,7 @@
     "http-server": "^0.10.0",
     "material-design-icons": "^3.0.1",
     "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.11",
     "webpack-dev-server": "^3.1.1"
   }
 }
