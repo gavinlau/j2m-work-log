@@ -1,0 +1,98 @@
+<template>
+  <div class="page" data-name="settings">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+        <div class="title">Settings</div>
+      </div>
+    </div>
+    <div class="page-content">
+	  <div class="block no-hairlines">
+			  <div class="row">
+				 <a href="/login-ways/" class="button">Open As Page</a>
+			  </div>
+	  </div>
+      <div class="list links-list">
+        <ul>
+          {{#each products}}
+            <li><a href="/product/{{id}}/">{{title}}</a></li>
+          {{/each}}
+        </ul>
+      </div>
+	  <div class="block-title">Login</div>
+            <div class="block block-strong">
+              <div class="row">
+                <div class="col-50">
+                   <a href="#" class="button button-raised" id="j2-login-btn" @click="login">Login</a>
+                </div>
+                <div class="col-50">
+				    <a href="#" class="button button-raised" id="j2-user-list"@click="userList">GetData2</a>
+                </div>
+              </div>
+        </div>
+		<div class="block">
+			  <div class="row">
+				<button class="col button button-fill color-red" @click="logout">退出登录</button>
+			  </div>
+		</div>
+    </div> 
+  </div>
+</template>
+<script>
+	 return {
+		data: function () {
+		  return {
+			products: this.$root.products
+		}
+	  },
+	  on:{
+			pageInit: function () {
+				  console.log("settings page init");
+			 },
+			 pageAfterOut: function () {
+				// page has left the view
+			 }
+		},
+	methods: {
+	  //
+	   login: function () {
+	         var self = this;
+	         var params={		 
+							companyId:20155,
+							account:'a13961879161',
+							password:'~Admin123'
+						};
+			   app.request.post(app.data.baseURL+'/j2-api/login/account_login', params, function (data) {
+					   var res=JSON.parse(data);
+					   app.data.userId=res.uesrId;
+					   app.data.p_auth=res.p_auth;
+			   });
+			   app.request.post(app.data.baseURL, {}, function (data) {
+					 console.log(j2Utils.logFlag,'DDDD');
+			   });
+	  },
+	  
+	  userList:function(){
+	     var params= {
+						cmd:"{'/J2eecn-Api-hook.japi/get-users-and-teams-by-group-id':{}}",
+						 p_auth:app.data.p_auth,
+						 qName:'',
+						 groupId:249479,
+						 page:1,
+						 rows:20
+					};
+		   app.request.post(app.data.baseURL+'/api/jsonws/invoke', params, function (data) {
+			  var res=JSON.parse(data);
+			  app.dialog.alert(res.message);
+			  console.log(data);
+		   }); 
+	  },
+	  //
+	  logout:function(){
+	    var router = this.$router;
+		 f7J2Utils.logout();
+		 router.navigate('/login-ways/', {reloadCurrent: true, animate: false});
+		 app.toolbar.hide('.toolbar');
+	  },
+	}
+ }
+</script>
