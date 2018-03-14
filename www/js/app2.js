@@ -2,13 +2,13 @@
 var $$ = Dom7;
 
 // Framework7 App main instance
-var app  = new Framework7({
+var app = new Framework7({
   root: '#app', // App root element
   id: 'com.j2.worklog', // App bundle ID
   name: '多彩日志', // App name
   theme: 'auto', // Automatic theme detection
   //precompileTemplates: true,
- language:'zh_CN',
+  language: 'zh_CN',
   // App root data
   data: function () {
     return {
@@ -16,12 +16,12 @@ var app  = new Framework7({
         firstName: 'John',
         lastName: 'Doe',
       },
-	  //gavin
-	  baseURL:'https://www.j2eecn.com',
-	  //
-	  p_auth:'',
-	  userId:'',
-	  
+      //gavin
+      baseURL: 'https://www.j2eecn.com',
+      //
+      p_auth: '',
+      userId: '',
+
       // Demo products for Catalog section
       products: [
         {
@@ -46,32 +46,32 @@ var app  = new Framework7({
   methods: {
     helloWorld: function () {
       //app.dialog.alert('Hello World!');
-	  console.log('hello');
+      console.log('hello');
     },
-	 
+
   },
-   on: {
-        init:function(){
-		   //do init
-		   console.log('F7','app2.js');
-		  
-		   
-		},
-        pageAfterIn: function (e, page) {
-          // do something after page gets into the view
-		  console.log("F7","app2.js pageAfterIn");
-		  
-		  
-        },
-        pageInit: function (e, page) {
-          // do something when page initialized
-		   console.log("F7","app.js pageInit");
-        },
-      },
+  on: {
+    init: function () {
+      //do init
+      console.log('F7', 'app2.js');
+
+
+    },
+    pageAfterIn: function (e, page) {
+      // do something after page gets into the view
+      console.log("F7", "app2.js pageAfterIn");
+
+
+    },
+    pageInit: function (e, page) {
+      // do something when page initialized
+      console.log("F7", "app.js pageInit");
+    },
+  },
   // App routes
   routes: routes,
 });
- app.toolbar.hide('.toolbar');
+app.toolbar.hide('.toolbar');
 //
 var homeView;
 var catalogView;
@@ -79,46 +79,43 @@ var settingsView;
 
 //set up request
 app.request.setup({
-			   contentType:'application/x-www-form-urlencoded;charset=UTF-8'
-			});
-			
-if(j2Utils.checkAutoLoginAble)
+  contentType: 'application/x-www-form-urlencoded;charset=UTF-8'
+});
+
+if (j2Utils.checkAutoLoginAble) {
+  var username = localStorage.getItem('account', username);
+  var password = localStorage.getItem('password', password);
+  var params = { companyId: 20155, account: username, password: password };
+  app.request.post(app.data.baseURL + '/j2-api/login/account_login', params, function (data) {
+    var res = JSON.parse(data);
+    if (res.uesrId && res.uesrId != '') {
+      localStorage.setItem('userId', res.uesrId);
+      localStorage.setItem('p_auth', res.p_auth);
+      localStorage.setItem('account', username);
+      localStorage.setItem('password', password);
+      app.data.p_auth = res.p_auth;
+      app.data.userId = res.uesrId;
+      app.request.post(app.data.baseURL, {}, function (data) {
+        //view normal
+        app.toolbar.show('.toolbar');
+        homeView = app.views.create('#view-home', {
+          url: '/'
+        });
+      });
+
+    } else {//to login
+      app.toolbar.hide('.toolbar');
+      homeView = app.views.create('#view-home', {
+        url: '/login-ways/'
+      });
+    }
+  });
+} else//login
 {
-    var username=localStorage.getItem('account',username);
-	var password=localStorage.getItem('password',password);
-	var params={companyId:20155,account:username,password:password};
-	app.request.post(app.data.baseURL+'/j2-api/login/account_login', params, function (data) {
-						   var res=JSON.parse(data);
-						   if(res.uesrId && res.uesrId!='')
-						   {
-								   localStorage.setItem('userId',res.uesrId);
-								   localStorage.setItem('p_auth',res.p_auth);
-								   localStorage.setItem('account',username);
-	                               localStorage.setItem('password',password);
-								   app.data.p_auth=res.p_auth;
-	                               app.data.userId=res.uesrId;
-								   app.request.post(app.data.baseURL, {}, function (data) {
-									 //view normal
-									  app.toolbar.show('.toolbar');
-									  homeView= app.views.create('#view-home', {
-										  url: '/'
-									  });
-								   });
-							 
-						   }else
-						   {//to login
-								 app.toolbar.hide('.toolbar');
-								 homeView= app.views.create('#view-home', {
-								  url: '/login-ways/'
-								});
-						   }
-	 });
-}else//login
-{
-       app.toolbar.hide('.toolbar');
-	   homeView= app.views.create('#view-home', {
-	   url: '/login-ways/'
-	   });
+  app.toolbar.hide('.toolbar');
+  homeView = app.views.create('#view-home', {
+    url: '/login-ways/'
+  });
 }
 
 // Init/Create views
