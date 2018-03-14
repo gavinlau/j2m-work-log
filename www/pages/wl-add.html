@@ -1,228 +1,226 @@
 <template>
-  <div class="page" data-name="wl-add">
-	 <div class="navbar">
-		<div class="navbar-inner sliding">
-		  <div class="left">
-			<a href="#" class="link back">
-			  <i class="icon icon-back"></i>
-			  <span class="ios-only">Back</span>
-			</a>
-		  </div>
-		  <div class="title">日志新增</div>
+	<div class="page" data-name="wl-add">
+		<div class="navbar">
+			<div class="navbar-inner sliding">
+				<div class="left">
+					<a href="#" class="link back">
+						<i class="icon icon-back"></i>
+						<span class="ios-only">Back</span>
+					</a>
+				</div>
+				<div class="title">日志新增</div>
+			</div>
 		</div>
-	 </div>
-    <div class="page-content">
-      <form class="list" id="wl-add-form">
-		  <ul>
-			<li>
-			  <div class="item-content item-input">
-				<div class="item-inner">
-				  <div class="item-title item-label">工作内容</div>
-				  <div class="item-input-wrap">
-					<textarea  name="title" placeholder=""></textarea>
-				  </div>
+		<div class="page-content">
+			<form class="list" id="wl-add-form">
+				<ul>
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">工作内容</div>
+								<div class="item-input-wrap">
+									<textarea name="title" placeholder=""></textarea>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">完成情况</div>
+								<div class="item-input-wrap">
+									<textarea name="description" placeholder=""></textarea>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">选择日期</div>
+								<div class="item-input-wrap">
+									<input type="text" name="selLogDate" placeholder="Select date" readonly="readonly" id="sel-log-date" />
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">开始时间</div>
+								<div class="item-input-wrap">
+									<input type="text" name="selStartTime" placeholder="Describe yourself" readonly="readonly" id="sel-start-time" />
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">结束时间</div>
+								<div class="item-input-wrap">
+									<input type="text" name="selEndTime" placeholder="Describe yourself" readonly="readonly" id="sel-end-time" />
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</form>
+			<div class="block">
+				<div class="row">
+					<button class="col button button-fill button-round submit-form">提交</button>
+					<button class="col button button-fill button-round cancle-form">取消</button>
 				</div>
-			  </div>
-			</li>
-			<li>
-			   <div class="item-content item-input">
-				<div class="item-inner">
-				  <div class="item-title item-label">完成情况</div>
-				  <div class="item-input-wrap">
-					<textarea  name="description" placeholder=""></textarea>
-				  </div>
-				</div>
-			  </div>
-			</li>
-			<li>
-			   <div class="item-content item-input">
-				<div class="item-inner">
-				 <div class="item-title item-label">选择日期</div>
-				  <div class="item-input-wrap">
-					<input type="text" name="selLogDate" placeholder="Select date" readonly="readonly" id="sel-log-date"/>
-				  </div>
-				</div>
-			  </div>
-			</li>
-			
-			 <li>
-			  <div class="item-content item-input">
-				<div class="item-inner">
-				  <div class="item-title item-label">开始时间</div>
-				  <div class="item-input-wrap">
-					<input type="text" name="selStartTime" placeholder="Describe yourself" readonly="readonly" id="sel-start-time"/>
-				  </div>
-				</div>
-			  </div>
-			</li>
-			
-			<li>
-			  <div class="item-content item-input">
-				<div class="item-inner">
-				  <div class="item-title item-label">结束时间</div>
-				  <div class="item-input-wrap">
-					<input type="text" name="selEndTime" placeholder="Describe yourself" readonly="readonly" id="sel-end-time"/>
-				  </div>
-				</div>
-			  </div>
-			</li>
-		  </ul>
-		</form>
-		<div class="block">
-		  <div class="row">
-			<button class="col button button-fill button-round submit-form">提交</button>
-			<button class="col button button-fill button-round cancle-form">取消</button>
-		  </div>
+			</div>
 		</div>
-    </div>
-  </div>
+	</div>
 </template>
 <script>
-  return {    
-    on:{
-	    pageInit: function(e, page) {
-	    this.initUI();
-      },
-	},
-	data: function () {
-      return {
-        selectedDate: new Date(),
-		selectedUserId:'',
-		addParam:{
-                 cmd:"{'/j2-easyui-encalendar-portlet.encalendar/add-calendar-booking':{}}", 
-				 p_auth:app.data.p_auth,
-				 userId:app.data.userId,//For no selected user,It will be override by userDg loadSuccess  20434
-				 title:'',
-				 description:'',
-				 startTime:0,
-				 endTime:0,
-				 locale:'zh_CN'
+	return {
+		on: {
+			pageInit: function (e, page) {
+				this.initUI();
+			},
+		},
+		data: function () {
+			return {
+				selectedDate: new Date(),
+				selectedUserId: '',
+				addParam: {
+					cmd: "{'/j2-easyui-encalendar-portlet.encalendar/add-calendar-booking':{}}",
+					p_auth: app.data.p_auth,
+					userId: app.data.userId,//For no selected user,It will be override by userDg loadSuccess  20434
+					title: '',
+					description: '',
+					startTime: 0,
+					endTime: 0,
+					locale: 'zh_CN'
 				}
-      }
-    },
-    methods: {
-	  //
-	  
-	 initUI:function(){
-	   console.log(f7J2Utils.logFlag)
-	    _this=this;
-        var router = this.$router;
-	    app.toolbar.hide('.toolbar');
-	    var calendarModal = app.calendar.create({
-		  inputEl: '#sel-log-date',
-		  openIn: 'customModal',
-		  header: true,
-		  footer: true,
-		  dateFormat: 'yyyy-MM-dd',
-		  toolbarCloseText:'完成',
-		  monthNames:j2Utils.monthNames,
-		  value: [new Date()],
-		});
-		
-		//time select
-		var selStartTimePicker = app.picker.create({
-		  inputEl: '#sel-start-time',
-			rotateEffect: true,
-			value: [
-				8,
-				30
-			  ],
-			  formatValue: function (values, displayValues) {
-				return values[0] + ':' + values[1];
-			  },
-			cols: [
-			  {
-				textAlign: 'left',
-				values: (function () {
-					var arr = [];
-					for (var i = 0; i <= 23; i++) { arr.push(i); }
-					  return arr;
-				  })(),
-			  },
-			  // Divider
-				{
-				  divider: true,
-				  content: ':'
-				},
-			  // Minutes
-				{
-				  values: (function () {
-					var arr = [];
-					for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
-					  return arr;
-				  })(),
-				},
-			]
-		});
-		
-		var selEndTimePicker = app.picker.create({
-		  inputEl: '#sel-end-time',
-			rotateEffect: true,
-			value: [
-				9,
-				30
-			  ],
-			  formatValue: function (values, displayValues) {
-				return values[0] + ':' + values[1];
-			  },
-			cols: [
-			  {
-				textAlign: 'left',
-				values: (function () {
-					var arr = [];
-					for (var i = 0; i <= 23; i++) { arr.push(i); }
-					  return arr;
-				  })(),
-			  },
-			  // Divider
-				{
-				  divider: true,
-				  content: ':'
-				},
-			  // Minutes
-				{
-				  values: (function () {
-					var arr = [];
-					for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
-					  return arr;
-				  })(),
-				},
-			]
-		});
-		//init submit
-		$$('.submit-form').on('click', function(){
-		  var formData = app.form.convertToData('#wl-add-form');
-		   var param=_this.addParam;
-		    param.title=formData.title;
-		    param.description=formData.description;
-			//"selLogDate":"2018 03 07","selStartTime":"8:30","selEndTime":"9:30"
-			var hms=formData.selStartTime.split(':');
-			var hme=formData.selEndTime.split(':');
-			var startTime=moment(formData.selLogDate).add(hms[0],'hours').add(hms[1],'minutes').format('x');
-			var endTime=moment(formData.selLogDate).add(hme[0],'hours').add(hme[1],'minutes').format('x');
-			
-			param.startTime=startTime;
-			param.endTime=endTime;
-			
-		    app.request.post(app.data.baseURL+'/api/jsonws/invoke', param, function (data, status, xhr) {
-				 if(data.statusCode==200)
-				 {
-				    app.dialog.alert('新增成功');
-					 var intFormData = {
-					'title': '',
-					'description': ''
-				    };
-				   app.form.fillFromData('#wl-add-form', intFormData);
-				 }
-			  },'json'); 
-		});
-		$$('.cancle-form').on('click', function(){
-		    router.back();
-		});
-		 
-	 },
-	 //
-    }
-  }
-</script>
+			}
+		},
+		methods: {
+			//
 
+			initUI: function () {
+				console.log(f7J2Utils.logFlag)
+				_this = this;
+				var router = this.$router;
+				app.toolbar.hide('.toolbar');
+				var calendarModal = app.calendar.create({
+					inputEl: '#sel-log-date',
+					openIn: 'customModal',
+					header: true,
+					footer: true,
+					dateFormat: 'yyyy-MM-dd',
+					toolbarCloseText: '完成',
+					monthNames: j2Utils.monthNames,
+					value: [new Date()],
+				});
+
+				//time select
+				var selStartTimePicker = app.picker.create({
+					inputEl: '#sel-start-time',
+					rotateEffect: true,
+					value: [
+						8,
+						30
+					],
+					formatValue: function (values, displayValues) {
+						return values[0] + ':' + values[1];
+					},
+					cols: [
+						{
+							textAlign: 'left',
+							values: (function () {
+								var arr = [];
+								for (var i = 0; i <= 23; i++) { arr.push(i); }
+								return arr;
+							})(),
+						},
+						// Divider
+						{
+							divider: true,
+							content: ':'
+						},
+						// Minutes
+						{
+							values: (function () {
+								var arr = [];
+								for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
+								return arr;
+							})(),
+						},
+					]
+				});
+
+				var selEndTimePicker = app.picker.create({
+					inputEl: '#sel-end-time',
+					rotateEffect: true,
+					value: [
+						9,
+						30
+					],
+					formatValue: function (values, displayValues) {
+						return values[0] + ':' + values[1];
+					},
+					cols: [
+						{
+							textAlign: 'left',
+							values: (function () {
+								var arr = [];
+								for (var i = 0; i <= 23; i++) { arr.push(i); }
+								return arr;
+							})(),
+						},
+						// Divider
+						{
+							divider: true,
+							content: ':'
+						},
+						// Minutes
+						{
+							values: (function () {
+								var arr = [];
+								for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
+								return arr;
+							})(),
+						},
+					]
+				});
+				//init submit
+				$$('.submit-form').on('click', function () {
+					var formData = app.form.convertToData('#wl-add-form');
+					var param = _this.addParam;
+					param.title = formData.title;
+					param.description = formData.description;
+					//"selLogDate":"2018 03 07","selStartTime":"8:30","selEndTime":"9:30"
+					var hms = formData.selStartTime.split(':');
+					var hme = formData.selEndTime.split(':');
+					var startTime = moment(formData.selLogDate).add(hms[0], 'hours').add(hms[1], 'minutes').format('x');
+					var endTime = moment(formData.selLogDate).add(hme[0], 'hours').add(hme[1], 'minutes').format('x');
+
+					param.startTime = startTime;
+					param.endTime = endTime;
+          console.log(j2Utils.logFlag,"Submit form");
+					app.request.post(app.data.baseURL + '/api/jsonws/invoke', param, function (data, status, xhr) {
+						if (data.statusCode == 200) {
+							app.dialog.alert('新增成功');
+							var intFormData = {
+								'title': '',
+								'description': ''
+							};
+							app.form.fillFromData('#wl-add-form', intFormData);
+						}
+					}, 'json');
+				});
+				$$('.cancle-form').on('click', function () {
+					router.back();
+				});
+
+			},
+			//
+		}
+	}
+</script>
