@@ -4,7 +4,7 @@ routes = [
     componentUrl: './pages/home.html',
 	on:{
 	     pageInit: function (event, page) {
-		   console.log('routes index.html page init');
+		   console.log('routes.js','home.html pageInit');
 		}
 	}
   },
@@ -21,8 +21,12 @@ routes = [
     componentUrl: './pages/product.html',
   },
   {
-    path: '/settings/',
-    componentUrl: './pages/settings.html',
+    path: '/task/',
+    componentUrl: './pages/my/task.html',
+  },
+  {
+    path: '/my/',
+    componentUrl: './pages/my/my.html',
   },
   {
     path: '/login-ways/',

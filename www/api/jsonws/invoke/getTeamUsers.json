@@ -1,0 +1,120 @@
+{
+  "previousPage": 0,
+  "lastPage": false,
+  "hasNextPage": true,
+  "totalPage": 2,
+  "nextPage": 2,
+  "numPerPage": 20,
+  "title": "操作提示",
+  "message": "成功",
+  "rows": [
+    {
+      "teamName": "采购组",
+      "firstName": "瞿飞",
+      "userId": 276593
+    },
+    {
+      "teamName": "采购组",
+      "firstName": "周怡",
+      "userId": 276611
+    },
+    {
+      "teamName": "采购组",
+      "firstName": "吴玲玲",
+      "userId": 276629
+    },
+    {
+      "teamName": "采购组",
+      "firstName": "仓莉",
+      "userId": 276617
+    },
+    {
+      "teamName": "采购组",
+      "firstName": "徐升",
+      "userId": 276605
+    },
+    {
+      "teamName": "合同组",
+      "firstName": "刘如峰",
+      "userId": 276581
+    },
+    {
+      "teamName": "合同组",
+      "firstName": "张延",
+      "userId": 276563
+    },
+    {
+      "teamName": "合同组",
+      "firstName": "李燕",
+      "userId": 276569
+    },
+    {
+      "teamName": "合同组",
+      "firstName": "吴海岑",
+      "userId": 276587
+    },
+    {
+      "teamName": "合同组",
+      "firstName": "胡娜",
+      "userId": 276575
+    },
+    {
+      "teamName": "合同组",
+      "firstName": "张朝霞",
+      "userId": 276551
+    },
+    {
+      "teamName": "招标组",
+      "firstName": "王筠",
+      "userId": 276545
+    },
+    {
+      "teamName": "招标组",
+      "firstName": "周浩昊",
+      "userId": 276557
+    },
+    {
+      "teamName": "招标组",
+      "firstName": "蒋臣玉",
+      "userId": 276623
+    },
+    {
+      "teamName": "物资组",
+      "firstName": "张琳琳",
+      "userId": 276599
+    },
+    {
+      "teamName": "物资组",
+      "firstName": "邹震宇",
+      "userId": 275819
+    },
+    {
+      "teamName": "物资组",
+      "firstName": "刘洪义",
+      "userId": 267070
+    },
+    {
+      "teamName": "综合组",
+      "firstName": "徐炯",
+      "userId": 275802
+    },
+    {
+      "teamName": "综合组",
+      "firstName": "李祎琳",
+      "userId": 249622
+    },
+    {
+      "teamName": "",
+      "firstName": "ME",
+      "userId": 20434
+    }
+  ],
+  "entry": "null",
+  "total": 21,
+  "firstPage": true,
+  "hasPreviousPage": false,
+  "tag": "null",
+  "userdefinedlist": "null",
+  "currentPage": 1,
+  "statusCode": 200
+}

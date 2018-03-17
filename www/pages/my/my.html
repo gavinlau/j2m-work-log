@@ -2,27 +2,15 @@
 	<div class="page" data-name="settings">
 		<div class="navbar">
 			<div class="navbar-inner sliding">
-				<div class="title">Settings</div>
+				<div class="title">我的</div>
 			</div>
 		</div>
 		<div class="page-content ptr-content" data-ptr-distance="55">
-			 <!-- Default pull to refresh preloader-->
-			 <div class="ptr-preloader">
-					<div class="preloader"></div>
-					<div class="ptr-arrow"></div>
-				</div>
-
-			<div class="block block-strong">
-				<a class="icon-only">
-					<i class="icon f7-icons ios-only">person_fill
-
-					</i>
-					<i class="icon material-icons md-only">person
-
-					</i>
-				</a>
+			<!-- Default pull to refresh preloader-->
+			<div class="ptr-preloader">
+				<div class="preloader"></div>
+				<div class="ptr-arrow"></div>
 			</div>
-
 			<div class="list">
 				<ul>
 					<li>
@@ -30,16 +18,16 @@
 							<div class="item-media">
 								<a class="icon-only">
 									<i class="icon f7-icons ios-only" style="font-size:36px;">person_fill</i>
-										<i class="icon material-icons md-only" style="font-size:36px;">person</i>
-								 </a>
+									<i class="icon material-icons md-only" style="font-size:36px;">person</i>
+								</a>
 							</div>
 							<div class="item-inner">
 								<div class="item-title">
 									<div class="item-title">刘洪义</div>
 								</div>
-								
+
 								<div class="item-after">
-										<button class="col button button-fill color-gray">签到</button>
+									<button class="col button button-fill color-gray">签到</button>
 								</div>
 							</div>
 						</div>
@@ -58,11 +46,25 @@
 	</div>
 </template>
 <style scoped>
-.size-22 { font-size: 22px }
-.size-25 { font-size: 25px }
-.size-29 { font-size: 29px }
-.size-50 { font-size: 50px }
-.size-60 { font-size: 60px }
+	.size-22 {
+		font-size: 22px
+	}
+
+	.size-25 {
+		font-size: 25px
+	}
+
+	.size-29 {
+		font-size: 29px
+	}
+
+	.size-50 {
+		font-size: 50px
+	}
+
+	.size-60 {
+		font-size: 60px
+	}
 </style>
 <script>
 	return {
@@ -73,13 +75,13 @@
 		},
 		on: {
 			pageInit: function () {
-						var $ptrContent = $$('.ptr-content');
-						$ptrContent.on('ptr:refresh', function (e) {
-							
-							setTimeout(function () {
-								app.ptr.done(); // or e.detail();
-							}, 2000);
-						});
+				var $ptrContent = $$('.ptr-content');
+				$ptrContent.on('ptr:refresh', function (e) {
+
+					setTimeout(function () {
+						app.ptr.done(); // or e.detail();
+					}, 2000);
+				});
 			},
 			pageAfterOut: function () {
 				// page has left the view

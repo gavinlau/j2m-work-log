@@ -43,17 +43,17 @@
 						<i class="icon material-icons md-only">home</i>
 						<span class="tabbar-label">日志</span>
 					</a>
-					<a href="#view-catalog" class="tab-link">
+					<a href="#view-task" class="tab-link">
 						<i class="icon f7-icons ios-only">list</i>
 						<i class="icon f7-icons ios-only icon-ios-fill">list_fill</i>
 						<i class="icon material-icons md-only">view_list</i>
 						<span class="tabbar-label">任务</span>
 					</a>
-					<a href="#view-settings" class="tab-link">
-						<i class="icon f7-icons ios-only">settings</i>
-						<i class="icon f7-icons ios-only icon-ios-fill">settings_fill</i>
-						<i class="icon material-icons md-only">settings</i>
-						<span class="tabbar-label">我</span>
+					<a href="#view-my" class="tab-link">
+						<i class="icon f7-icons ios-only">person</i>
+						<i class="icon f7-icons ios-only icon-ios-fill">person_fill</i>
+						<i class="icon material-icons md-only">person</i>
+						<span class="tabbar-label">我的</span>
 					</a>
 				</div>
 			</div>
@@ -67,12 +67,12 @@
 
 
 			<!-- Catalog View -->
-			<div id="view-catalog" class="view tab">
+			<div id="view-task" class="view tab">
 				<!-- Catalog page will be loaded here dynamically from /catalog/ route -->
 			</div>
 
 			<!-- Settings View -->
-			<div id="view-settings" class="view tab">
+			<div id="view-my" class="view tab">
 				<!-- Settings page will be loaded here dynamically from /settings/ route -->
 			</div>
 
@@ -105,13 +105,14 @@
 	</script>
 
 	<script type="text/template7" id="userListTpl">
+		{{userId}}
 		 {{#each users}} 	 
-			 {{#js_if "this.id === @root.userId"}}
-				<option value="{{id}}" selected>{{uname}}-{{teamName}} </option>
+			 {{#js_if "this.id === 267070"}}
+				<option value="{{id}}" selected>{{uname}} </option>
 			{{else}}
-				 <option value="{{id}}">{{uname}}-{{teamName}}</option>
+				 <option value="{{id}}">{{uname}}</option>
 			{{/js_if}}
-         {{/each}} 			
+    {{/each}} 			
 	</script>
 
 
@@ -124,7 +125,8 @@
 	<script src="framework7/js/framework7.min.js"></script>
 	<!-- App routes -->
 	<script src="js/routes.js"></script>
-
+	<!-- J2API.js -->
+	<script src="js/api.js"></script>
 
 
 	<!-- Your custom app scripts -->

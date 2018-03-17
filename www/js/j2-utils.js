@@ -15,8 +15,7 @@ J2Utils.prototype={
 					     
 					   }else
 					   {
-					        app.dialog.alert('user name or password not correct', function () {
-					           
+					        app.dialog.alert('user name or password not correct', function () {  
 						    });
 					   }
 			   });
