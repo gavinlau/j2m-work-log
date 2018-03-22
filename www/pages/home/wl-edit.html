@@ -1,5 +1,5 @@
 <template>
-	<div class="page" data-name="wl-add">
+	<div class="page" data-name="wl-edit">
 		<div class="navbar">
 			<div class="navbar-inner sliding">
 				<div class="left">
@@ -8,7 +8,7 @@
 						<span class="ios-only">Back</span>
 					</a>
 				</div>
-				<div class="title">日志新增</div>
+				<div class="title">日志编辑</div>
 			</div>
 		</div>
 		<div class="page-content">
@@ -82,33 +82,36 @@
 		on: {
 			pageInit: function (e, page) {
 				this.initUI();
+			
+			},
+			pageBeforeIn: function (e, page) {//Gavin it can grap the ui instance
+				console.log('wl-edit.html', 'pageBeforeIn');
+				this.initData();
+				
+			},
+			pageAfterIn: function (e, page) {
+				console.log('wl-edit.html', 'pageAfterIn');
+				app.toolbar.hide('.toolbar',true);
 			},
 		},
+		
 		data: function () {
 			return {
 				selectedDate: new Date(),
 				selectedUserId: '',
-				addParam: {
-					cmd: "{'/j2-easyui-encalendar-portlet.encalendar/add-calendar-booking':{}}",
-					p_auth: app.data.p_auth,
-					userId: app.data.userId,//For no selected user,It will be override by userDg loadSuccess  20434
-					title: '',
-					description: '',
-					startTime: 0,
-					endTime: 0,
-					locale: 'zh_CN'
-				}
+				calendarModal:'',
+				selStartTimePicker:'',
+				selEndTimePicker:''
 			}
 		},
 		methods: {
 			//
 
 			initUI: function () {
-				console.log(f7J2Utils.logFlag)
 				_this = this;
 				var router = this.$router;
 				app.toolbar.hide('.toolbar');
-				var calendarModal = app.calendar.create({
+				_this.calendarModal = app.calendar.create({
 					inputEl: '#sel-log-date',
 					openIn: 'customModal',
 					header: true,
@@ -119,8 +122,10 @@
 					value: [new Date()],
 				});
 
+			
+
 				//time select
-				var selStartTimePicker = app.picker.create({
+				_this.selStartTimePicker = app.picker.create({
 					inputEl: '#sel-start-time',
 					rotateEffect: true,
 					value: [
@@ -155,7 +160,7 @@
 					]
 				});
 
-				var selEndTimePicker = app.picker.create({
+				_this.selEndTimePicker = app.picker.create({
 					inputEl: '#sel-end-time',
 					rotateEffect: true,
 					value: [
@@ -192,7 +197,7 @@
 				//init submit
 				$$('.submit-form').on('click', function () {
 					var formData = app.form.convertToData('#wl-add-form');
-					var param = _this.addParam;
+					var param = {};
 					param.title = formData.title;
 					param.description = formData.description;
 					//"selLogDate":"2018 03 07","selStartTime":"8:30","selEndTime":"9:30"
@@ -203,24 +208,52 @@
 
 					param.startTime = startTime;
 					param.endTime = endTime;
-          console.log(j2Utils.logFlag,"Submit form");
-					app.request.post(app.data.baseURL + '/api/jsonws/invoke', param, function (data, status, xhr) {
+					if(param.title=="")
+					{
+						app.dialog.alert('工作内容不能为空');
+						return;
+					}
+					j2API.postAPI('updateCalendarBooking',param,function(data){
 						if (data.statusCode == 200) {
-							app.dialog.alert('新增成功');
-							var intFormData = {
-								'title': '',
-								'description': ''
-							};
-							app.form.fillFromData('#wl-add-form', intFormData);
+							var toastBottom = app.toast.create({
+								text: '编辑成功',
+								closeTimeout: 1000,
+								});
+								toastBottom.open();
 						}
-					}, 'json');
+					});
+				
 				});
 				$$('.cancle-form').on('click', function () {
 					router.back();
 				});
+				
+				
 
 			},
-			//
+			initData:function(){
+				var _this=this;
+				var route = this.$route;
+				var params={};
+				params.calendarBookingId=route.params.id;
+		        j2API.postAPI("getCalendarBookingById",params,function(data){
+					var entry=data.entry;
+					var selLogDate=moment(entry.startTime).format("YYYY MM D");
+					var selStartTime=moment(entry.startTime).format("HH mm");
+					var selEndTime=moment(entry.endTime).format("HH mm");;
+					var intFormData = {
+								'title': entry.title,
+								'description': entry.description,
+								"selLogDate":selLogDate,
+								'selStartTime':selStartTime,
+								'selEndTime':selEndTime
+							};
+					var values=[new Date(entry.startTime)];
+					_this.calendarModal.setValue(values);
+					app.form.fillFromData('#wl-add-form', intFormData);
+				});	
+			}
+			
 		}
 	}
 </script>

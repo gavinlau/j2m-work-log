@@ -79,33 +79,33 @@
 		</div>
 		<!--tabs end-->
 	</div>
+
+
 	<!--For home.html-->
 	<script type="text/template7" id="virtualListTpl">
-						  <li class="swipeout">
-							  <div class="swipeout-content">
-								<a href="#" class="item-link item-content">
-								  <div class="item-inner">
-									<div class="item-title-row">
-									  <div class="item-title">{{title}}</div>
-									  <div class="item-after">{{timeTag}}</div>
-									</div>
-									
-									<div class="item-text">
-									      {{description}}
-									</div>
-								  </div>
-								</a>
-							  </div>
-							 
-							  <div class="swipeout-actions-right">
-								<a href="#" class="color-orange alert-mark">编辑</a>
-								<a href="#" data-confirm="Are you sure you want to delete this item?" class="swipeout-delete">删除</a>
-							  </div>
-						</li>
-	</script>
-
+		<li class="swipeout deleted-callback" data-id="{{id}}">
+			<div class="swipeout-content">
+				<a href="/home/wl-view/{{id}}/" class="item-link item-content">
+				<div class="item-inner">
+					<div class="item-title-row">
+					<div class="item-title">{{title}}</div>
+					<div class="item-after">{{timeTag}}</div>
+					</div>
+					
+					<div class="item-text">
+						{{description}}
+					</div>
+				</div>
+				</a>
+			</div>
+			 
+			<div class="swipeout-actions-right">
+				<a href="/home/wl-edit/{{id}}/" class="color-orange alert-mark">编辑</a>
+				<a href="#" data-confirm="你确认需要删除该条目吗?" data-confirm-title="删除?" class="swipeout-delete">删除</a>
+			</div>
+		</li>
+</script>
 	<script type="text/template7" id="userListTpl">
-		{{userId}}
 		 {{#each users}} 	 
 			 {{#js_if "this.id === 267070"}}
 				<option value="{{id}}" selected>{{uname}} </option>
@@ -120,17 +120,16 @@
 	<script src="https://cdn.bootcss.com/moment.js/2.20.1/moment.min.js"></script>
 	<script src="https://cdn.bootcss.com/moment.js/2.20.1/locale/zh-cn.js"></script>
 	<script src="js/j2-utils.js"></script>
-
 	<!-- Framework7 library -->
 	<script src="framework7/js/framework7.min.js"></script>
 	<!-- App routes -->
 	<script src="js/routes.js"></script>
+	
+	<!-- Your custom app scripts -->
+	<script src="js/app.js"></script>
+
 	<!-- J2API.js -->
 	<script src="js/api.js"></script>
-
-
-	<!-- Your custom app scripts -->
-	<script src="js/app2.js"></script>
 
 	<!-- F7J2Utils -->
 	<script src="js/f7-j2-utils.js"></script>

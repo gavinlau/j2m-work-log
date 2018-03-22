@@ -1,0 +1,29 @@
+<template>
+    <div class="page" data-name="net-error">
+        <div class="page-content">
+            <div class="block block-strong no-hairlines">
+                    net-error
+                  </div>
+            <a class="button button-round" @click="refresh">Refresh</a>
+        </div>
+    </div>
+</template>
+<script>
+    return {
+        on: {
+            pageBeforeIn: function (e, page) {
+                console.log("net-err.html", "pageBeforeIn");
+                
+            },
+            pageAfterIn: function (e, page) {
+                console.log("net-err.html", "pageAfterIn");
+                app.toolbar.hide('.toolbar');
+            },
+        },
+        methods: {
+            refresh:function(){
+                location.reload();
+            }
+        }
+    }
+</script>

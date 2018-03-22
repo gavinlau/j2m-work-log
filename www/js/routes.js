@@ -1,12 +1,40 @@
 routes = [
   {
-    path: '/',
-    componentUrl: './pages/home.html',
-	on:{
-	     pageInit: function (event, page) {
-		   console.log('routes.js','home.html pageInit');
-		}
-	}
+    path: '/home/',
+    componentUrl: './pages/home/home.html',
+    on: {
+      pageInit: function (event, page) {
+        console.log('routes.js', 'home.html pageInit');
+      }
+    }
+  },
+  {
+    path: '/home/wl-add/',
+    componentUrl: './pages/home/wl-add.html',
+  },
+  {
+    path: '/home/wl-edit/:id/',
+    componentUrl: './pages/home/wl-edit.html',
+  },
+  {
+    path: '/home/wl-view/:id/',
+    componentUrl: './pages/home/wl-view.html',
+  },
+  {
+    path: '/task/',
+    componentUrl: './pages/task/task.html',
+  },
+  {
+    path: '/my/',
+    componentUrl: './pages/my/my.html',
+  },
+  {
+    path: '/login/',
+    componentUrl: './pages/login/login.html',
+  },
+  {
+    path: '/mics/net-err/',
+    componentUrl: './pages/mics/net-err.html',
   },
   {
     path: '/about/',
@@ -20,14 +48,8 @@ routes = [
     path: '/product/:id/',
     componentUrl: './pages/product.html',
   },
-  {
-    path: '/task/',
-    componentUrl: './pages/my/task.html',
-  },
-  {
-    path: '/my/',
-    componentUrl: './pages/my/my.html',
-  },
+
+  
   {
     path: '/login-ways/',
     componentUrl: './pages/login-ways.html',
@@ -98,6 +120,6 @@ routes = [
   // Default route (404 page). MUST BE THE LAST
   {
     path: '(.*)',
-    url: './pages/404.html',
+    url: './pages/mics/404.html',
   },
 ];

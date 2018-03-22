@@ -7,27 +7,25 @@
 				<div class="left sliding"></div>
 				<div class="title sliding">日志</div>
 				<div class="right">
-					  <div class="list no-hairlines-md" style="width: 120px;">
-								<ul>
-									<li>
-										<div class="item-content item-input">
-											<div class="item-inner">
-												<div class="item-input-wrap">
-													<input type="text"  placeholder="ME" class="pic" readonly="readonly" id="j2-picker-team-users" />
-												</div>
-											</div>
+					<div class="list no-hairlines-md" style="width: 120px;">
+						<ul>
+							<li>
+								<div class="item-content item-input">
+									<div class="item-inner">
+										<div class="item-input-wrap">
+											<input type="text" placeholder="ME" class="pic" readonly="readonly" id="j2-picker-team-users" />
 										</div>
-									</li>
-								</ul>
-							</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
 		<!--Fab-->
-
-
-		<div class="fab fab-left-bottom">
-			<a href="/wl-add/">
+		<div class="fab fab-right-bottom">
+			<a href="/home/wl-add/">
 				<i class="icon f7-icons ios-only">add</i>
 				<i class="icon f7-icons ios-only">close</i>
 				<i class="icon material-icons md-only">add</i>
@@ -35,32 +33,31 @@
 			</a>
 		</div>
 		<!-- Scrollable page content-->
-		<div class="page-content">
-
+		<div class="page-content ptr-content" data-ptr-distance="55">
+			<!-- Default pull to refresh preloader-->
+			<div class="ptr-preloader">
+				<div class="preloader"></div>
+				<div class="ptr-arrow"></div>
+			</div>
 			<!--page content start  hide-navbar-on-scroll-->
-
-			
-
-
 			<!--Calendar-->
 			<div id="demo-calendar-inline-container"></div>
 			<!--User list-->
-
-
 			<!--List-->
-			<div class="list virtual-list media-list searchbar-found"></div>
+			<div class="list virtual-list media-list searchbar-found no-margin no-hairlines no-ios-left-edge">
+			</div>
 
 		</div>
 		<!--page content end-->
 	</div>
 	<!--page end-->
+
 </template>
 <style scoped>
 </style>
 <script>
 	// script must return component object
 	return {
-
 		// Lifecycle Hooks
 		beforeCreate() {
 			console.log('home.html', "componentBeforeCreate")
@@ -90,23 +87,17 @@
 			pageInit: function (e, page) {
 				console.log('home.html', 'pageInit');
 				this.initUI();
-
-
-
+				this.statusChanged();
 			},
 			pageBeforeIn: function (e, page) {//Gavin it can grap the ui instance
 				console.log('home.html', 'pageBeforeIn');
-				//init the ui data
-				app.toolbar.show('.toolbar');
-				this.initUIData();
-				this.statusChanged();
-				//var picker=app.picker.get('#j2-picker-team-users'); undefined
-				
-			
+				app.preloader.show();
+
 			},
 			pageAfterIn: function (e, page) {
 				console.log('home.html', 'pageAfterIn');
-					 
+				app.toolbar.show('.toolbar');
+				app.preloader.hide();
 			},
 			pageBeforeOut: function (e, page) {
 				console.log('home.html', 'pageBeforeOut');
@@ -128,61 +119,60 @@
 			}
 		},
 		methods: {
-			openAlert: function () {
-				var self = this.$app.dialog.alert('Hello world!');
-			},
 			initUI: function () {
-			
 				var _this = this;
-       
-			
-			//Init picker user
-		
-			 //data
-			 var params={};
-			 j2API.postAPI("getTeamUsers", params, function (ret) {
+				//Init picker user
+				var $ptrContent = $$('.ptr-content');
+				$ptrContent.on('ptr:refresh', function (e) {
+					setTimeout(function () {
+						_this.statusChanged();
+						app.ptr.done();
+					}, 2000);
+				});
+				//data
+				var params = {};
+				j2API.postAPI("getTeamUsers", params, function (ret) {
 					var rows = ret.rows;
-					var values=['选择人员:'];
-					var displayValues=['选择人员:'];
+					var values = ['选择人员:'];
+					var displayValues = ['选择人员:'];
 
 					for (var i = 0; i < rows.length; i++) {
-							_this.users.push({
-								id: rows[i].userId,
-								uname: rows[i].firstName,
-								teamName: rows[i].teamName
-							});
-							values.push(rows[i].firstName);
-							displayValues.push(rows[i].firstName);
+						_this.users.push({
+							id: rows[i].userId,
+							uname: rows[i].firstName,
+							teamName: rows[i].teamName
+						});
+						values.push(rows[i].firstName);
+						displayValues.push(rows[i].firstName);
+					}
+
+					var pickerTeamUser = app.picker.create({
+						inputEl: '#j2-picker-team-users',
+						cols: [
+							{
+								textAlign: 'center',
+								displayValues: displayValues,
+								values: values
+							}
+						],
+						on: {
+							init: function (picker) {
+
+							},
+							pickerChange: function (picker, value, displayValue) {
+
+							},
+							closed: function (picker) {
+								if (picker.cols[0].activeIndex == 0)
+									return;
+								_this.selectedUserId = _this.users[picker.cols[0].activeIndex - 1].id;
+								_this.statusChanged();
+							},
 						}
+					});
 
-						var pickerTeamUser = app.picker.create({
-								inputEl: '#j2-picker-team-users',
-								cols: [
-									{
-										textAlign: 'center',
-										displayValues:displayValues,
-										values: values
-									}
-								],
-								on:{
-									init:function(picker){
-										
-									},
-									pickerChange:function(picker, value, displayValue){
-										
-									},
-									closed:function(picker){
-											if(picker.cols[0].activeIndex==0)
-										      return;
-											_this.selectedUserId=_this.users[picker.cols[0].activeIndex-1].id;
-											_this.statusChanged();
-									},
-								}
-							});
-						 
-				  
+
 				});
-
 				//init calendar
 				var monthNames = j2Utils.monthNames;
 				calendarInline = app.calendar.create({
@@ -243,12 +233,12 @@
 					// List item Template7 template
 					itemTemplate: $$('script#virtualListTpl').html(),
 					// Item height
-					height: app.theme === 'ios' ? 83 : 93
+					//height: app.theme === 'ios' ? 630 : 730
 				});
 			},
 			initUIData: function () {
 				var _this = this;
-			
+
 			},
 			//
 			statusChanged: function () {
@@ -260,7 +250,6 @@
 				var startTime = defaultStartTime;
 				var endTime = defaultEndTime;
 				var userId = this.selectedUserId != '' ? this.selectedUserId : app.data.userId;
-        
 				var params = { startTime: defaultStartTime, endTime: defaultEndTime, userId: userId };
 				j2API.postAPI("getDefaultCalendarBookingByDate", params, function (ret) {
 					var rows = ret.rows;
@@ -278,6 +267,23 @@
 					}
 					//fire data list changed
 					virtualList.replaceAllItems(items);
+
+					$$('.deleted-callback').on('swipeout:delete', function () {
+
+						var id = $$(this).attr('data-id');
+						var params = { calendarBookingId: id };
+						j2API.postAPI("deleteCalendarBookingById", params, function (data) {
+							var toastBottom = app.toast.create({
+								text: '删除成功',
+
+								closeTimeout: 1000,
+							});
+							toastBottom.open();
+						});
+					});
+
+					app.preloader.hide();
+
 				});
 
 			},

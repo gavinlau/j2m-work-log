@@ -1,0 +1,214 @@
+<template>
+	<div class="page" data-name="wl-view">
+		<div class="navbar">
+			<div class="navbar-inner sliding">
+				<div class="left">
+					<a href="#" class="link back">
+						<i class="icon icon-back"></i>
+						<span class="ios-only">Back</span>
+					</a>
+				</div>
+				<div class="title">查看日志</div>
+			</div>
+		</div>
+		<div class="page-content">
+			<form class="list" id="wl-add-form">
+				<ul>
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">工作内容</div>
+								<div class="item-input-wrap">
+									<textarea name="title" placeholder=""></textarea>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">完成情况</div>
+								<div class="item-input-wrap">
+									<textarea name="description" placeholder=""></textarea>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">选择日期</div>
+								<div class="item-input-wrap">
+									<input type="text" name="selLogDate" placeholder="Select date" readonly="readonly" id="sel-log-date" />
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">开始时间</div>
+								<div class="item-input-wrap">
+									<input type="text" name="selStartTime" placeholder="Describe yourself" readonly="readonly" id="sel-start-time" />
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">结束时间</div>
+								<div class="item-input-wrap">
+									<input type="text" name="selEndTime" placeholder="Describe yourself" readonly="readonly" id="sel-end-time" />
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</form>
+			
+		</div>
+	</div>
+</template>
+<script>
+	return {
+		on: {
+			pageInit: function (e, page) {
+				this.initUI();
+				
+			},
+			pageBeforeIn: function (e, page) {//Gavin it can grap the ui instance
+				this.initData();
+			},
+			pageAfterIn: function (e, page) {
+				console.log('wl-view.html', 'pageAfterIn');
+				app.toolbar.hide('.toolbar',true);
+			},
+		},
+		
+		data: function () {
+			return {
+				selectedDate: new Date(),
+				selectedUserId: '',
+				calendarModal:'',
+				selStartTimePicker:'',
+				selEndTimePicker:''
+			}
+		},
+		methods: {
+			initUI: function () {
+				_this = this;
+				var router = this.$router;
+			
+				_this.calendarModal = app.calendar.create({
+					inputEl: '#sel-log-date',
+					openIn: 'customModal',
+					header: true,
+					footer: true,
+					dateFormat: 'yyyy-MM-dd',
+					toolbarCloseText: '完成',
+					monthNames: j2Utils.monthNames,
+					value: [new Date()],
+				});
+
+			
+
+				//time select
+				_this.selStartTimePicker = app.picker.create({
+					inputEl: '#sel-start-time',
+					rotateEffect: true,
+					value: [
+						8,
+						30
+					],
+					formatValue: function (values, displayValues) {
+						return values[0] + ':' + values[1];
+					},
+					cols: [
+						{
+							textAlign: 'left',
+							values: (function () {
+								var arr = [];
+								for (var i = 0; i <= 23; i++) { arr.push(i); }
+								return arr;
+							})(),
+						},
+						// Divider
+						{
+							divider: true,
+							content: ':'
+						},
+						// Minutes
+						{
+							values: (function () {
+								var arr = [];
+								for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
+								return arr;
+							})(),
+						},
+					]
+				});
+
+				_this.selEndTimePicker = app.picker.create({
+					inputEl: '#sel-end-time',
+					rotateEffect: true,
+					value: [
+						9,
+						30
+					],
+					formatValue: function (values, displayValues) {
+						return values[0] + ':' + values[1];
+					},
+					cols: [
+						{
+							textAlign: 'left',
+							values: (function () {
+								var arr = [];
+								for (var i = 0; i <= 23; i++) { arr.push(i); }
+								return arr;
+							})(),
+						},
+						// Divider
+						{
+							divider: true,
+							content: ':'
+						},
+						// Minutes
+						{
+							values: (function () {
+								var arr = [];
+								for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
+								return arr;
+							})(),
+						},
+					]
+				});
+			},
+			initData:function(){
+				var _this=this;
+				var route = this.$route;
+				var params={};
+				params.calendarBookingId=route.params.id;
+		        j2API.postAPI("getCalendarBookingById",params,function(data){
+					var entry=data.entry;
+					var selLogDate=moment(entry.startTime).format("YYYY MM D");
+					var selStartTime=moment(entry.startTime).format("HH mm");
+					var selEndTime=moment(entry.endTime).format("HH mm");;
+					var intFormData = {
+								'title': entry.title,
+								'description': entry.description,
+								"selLogDate":selLogDate,
+								'selStartTime':selStartTime,
+								'selEndTime':selEndTime
+							};
+					var values=[new Date(entry.startTime)];
+					_this.calendarModal.setValue(values);
+					app.form.fillFromData('#wl-add-form', intFormData);
+				});	
+			}
+			
+		}
+	}
+</script>

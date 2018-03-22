@@ -1,5 +1,5 @@
 <template>
-  <div class="page no-toolbar no-navbar no-swipeback">
+  <div class="page no-toolbar no-navbar no-swipeback" data-name="login">
     <div class="page-content login-screen-content">
       <div class="login-screen-title">多彩日志</div>
       <form>
@@ -36,39 +36,47 @@
 </template>
 <script>
   return {
+    on:{
+      pageInit: function (e, page) {
+			
+      },
+      pageBeforeIn: function (e, page) {
+				
+			},
+			pageAfterIn: function (e, page) {
+        app.toolbar.hide('.toolbar');
+			},
+    },
     methods: {
       signIn: function () {
         var $ = this.$;
         var app = this.$app;
         var router = this.$router;
-        var username = $('input#demo-username-2').val();
+        var account = $('input#demo-username-2').val();
         var password = $('input#demo-password-2').val();
 		     var params={	
 							companyId:20155,
-							account:username,
+							account:account,
 							password:password
-						};
-			   app.request.post(app.data.baseURL+'/j2-api/login/account_login', params, function (data) {
-					   var res=JSON.parse(data);
-					   if(res.uesrId && res.uesrId!='')
-					   {
-							       app.request.post(app.data.baseURL, {}, function (data) {
-										   app.data.userId=res.uesrId;
-										   app.data.p_auth=res.p_auth;
-										   localStorage.setItem('userId',app.data.userId);
-										   localStorage.setItem('p_auth',app.data.p_auth);
-										   //
-										   localStorage.setItem('account',username);
-										   localStorage.setItem('password',password);
-										   //
-										   window.location.reload();
-							   });
-					   }else
-					   {
-					        app.dialog.alert('user name or password not correct', function () {
+            };
+            j2API.postAPI("accountLogin",params,function(data){
+              if (data.statusCode==200 && data.userId && data.userId != '') {
+                localStorage.setItem('userId', data.userId);
+                localStorage.setItem('p_auth', data.p_auth);
+                localStorage.setItem('account', account);
+                localStorage.setItem('password', password);
+                localStorage.setItem('userName', data.userName);
+                app.data.p_auth = data.p_auth;
+                app.data.userId = data.userId;
+                app.data.account = account;
+                app.data.password = password;
+                //need view the page again
+                window.location.reload();
+              } else {
+                app.dialog.alert('用户名或密码不正确!', function () {
 						    });
-					   }
-			   });
+              }
+            });
       },
 	  //
     }

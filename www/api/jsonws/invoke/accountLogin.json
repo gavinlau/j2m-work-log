@@ -1,0 +1,22 @@
+{
+    "statusCode": 200,
+    "getTime":10000,
+    "title": "操作提示",
+    "message":"成功",
+    "userId": 888,
+    "userName":"刘洪义",
+    "p_auth":"poxujy",
+    "lastPage": false,
+    "hasNextPage": false,
+    "totalPage": 0,
+    "nextPage": 0,
+    "numPerPage": 0,
+    "rows": "null",
+    "entry": "null",
+    "total": 0,
+    "firstPage": false,
+    "hasPreviousPage": false,
+    "tag": "null",
+    "userdefinedlist": "null",
+    "currentPage": 0
+}
