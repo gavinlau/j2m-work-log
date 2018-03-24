@@ -101,7 +101,7 @@
 			 
 			<div class="swipeout-actions-right">
 				<a href="/home/wl-edit/{{id}}/" class="color-orange alert-mark">编辑</a>
-				<a href="#" data-confirm="你确认需要删除该条目吗?" data-confirm-title="删除?" class="swipeout-delete">删除</a>
+				<a href="#" data-confirm="你确认需要删除该条目吗?"  class="swipeout-delete">删除</a>
 			</div>
 		</li>
 </script>
@@ -124,13 +124,81 @@
 	<script src="framework7/js/framework7.min.js"></script>
 	<!-- App routes -->
 	<script src="js/routes.js"></script>
-	
 	<!-- Your custom app scripts -->
 	<script src="js/app.js"></script>
 
 	<!-- J2API.js -->
 	<script src="js/api.js"></script>
-
+    <script type="text/javascript">
+	//init params
+			if(app.data.dev)
+			   app.data.baseURL="";
+			//set up request
+			app.request.setup({
+			  contentType:app.data.defaultCT
+			});
+			// Init/Create views
+			app.toolbar.hide('.toolbar');
+			app.preloader.show();
+			
+			function createIndexUI(type,silence)
+			{
+			    if(silence)
+				  return;
+			    if(type=='home')
+				{
+				    app.data.taskView = app.views.create('#view-home', {
+											url: '/home/'
+										  });
+					 app.data.taskView = app.views.create('#view-task', {
+											url: '/task/'
+										  });
+				   app.data.myView = app.views.create('#view-my', {
+					url: '/my/'
+					});
+				}else if(type=='login')
+				{
+				     app.data.homeView = app.views.create('#view-home', {
+					  url: "/login/"
+				    });
+				}else if(type=='net-err')
+				{
+				    app.data.homeView = app.views.create('#view-home', {
+					  url: "/mics/net-err/"
+				    });
+				}
+				app.preloader.hide();
+			}
+			//------------------------------------------------------
+			function requireSession(silence) {
+			  console.log('index.html',silence);
+			  if(!navigator.onLine)
+			  {
+			     createIndexUI('net-err',silence);
+				 return;
+			  }
+			  var account = localStorage.getItem('account');
+			  var password = localStorage.getItem('password');
+			  console.log("html.js",account+":"+password);
+			  if (account == null || account == '' || password == null || password == '') {
+				createIndexUI('login',silence);
+				return;
+			  }
+			  var params = {
+				companyId: app.data.companyId,
+				account: account,
+				password: password
+			  };
+			  j2API.login(params, function (data) {
+				  data?createIndexUI('home',silence):createIndexUI('login',silence);
+			  });
+			}
+			var sessionKeeper = setInterval('requireSession(true)', 1000*60*29);
+			//clearInterval(myRoll);
+			app.utils.nextTick(function() {
+			   requireSession(false);
+			});
+	</script>
 	<!-- F7J2Utils -->
 	<script src="js/f7-j2-utils.js"></script>
 
